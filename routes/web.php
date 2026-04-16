@@ -17,3 +17,7 @@ Route::prefix('/blog')->name('blog.')->controller(PostController::class)->group(
         ])
         ->name('show');
 });
+
+Route::get('/debug-locale', function () {
+    return app()->getLocale();
+});
