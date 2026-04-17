@@ -10,14 +10,10 @@ Route::get('/', function () {
 Route::prefix('/blog')->name('blog.')->controller(PostController::class)->group(function () {
     Route::get('/', 'index')->name('index');
 
-    Route::get('/{slug}-{id}', 'show')
+    Route::get('/{slug}-{post}', 'show')
         ->where([
-            'id' => '[0-9]+',
+            'post' => '[0-9]+',
             'slug' => '[a-z0-9\-]+',
         ])
         ->name('show');
-});
-
-Route::get('/debug-locale', function () {
-    return app()->getLocale();
 });

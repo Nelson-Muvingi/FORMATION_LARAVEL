@@ -9,7 +9,7 @@
             <h2 class=" text-2xl font-bold text-slate-700">{{ $post->title }}</h2>
             <p>{{ $post->content }}</p>
             <p class="w-fit py-2 px-4 bg-blue-700 rounded text-white cursor-pointer">
-                <a href="{{ route('blog.show', ['slug' => $post->slug, 'id' => $post->id]) }}">Lire la suite</a>
+                <a href="{{ route('blog.show', ['slug' => $post->slug, 'post' => $post->id]) }}">Lire la suite</a>
             </p>
         </article>
     @endforeach
