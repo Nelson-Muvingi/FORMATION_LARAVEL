@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostFilterRequest;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index(): View
+    public function index(PostFilterRequest $request): View
     {
+        dd($request->validated());
         return view('blog.index', [
             'posts' => Post::paginate(2),
         ]);
