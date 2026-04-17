@@ -30,6 +30,13 @@
         text-gray-700 hover:bg-gray-100 hover:text-blue-600 @endif">
                             Accueil
                         </a>
+                        <a href="{{ route('blog.create') }}"
+                            class="px-3 py-2 rounded-md transition duration-200
+    @if (request()->route()->getName() === 'blog.create') bg-blue-600
+    @else
+        text-gray-700 hover:bg-gray-100 hover:text-blue-600 @endif">
+                            Create
+                        </a>
 
 
                     </div>
@@ -52,6 +59,7 @@
             <!-- Menu mobile déroulant -->
             <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg p-2">
                 <a href="{{ route('blog.index') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Accueil</a>
+                <a href="{{ route('blog.create') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Create</a>
 
                 <a href="compte/connexion"
                     class="block w-fit m-2 ml-4 mb-4 rounded bg-teal-500 py-2.5 px-4 text-white hover:bg-teal-600 transition">Connexion</a>
@@ -60,6 +68,11 @@
     </header>
 
     <div class="container">
+        @if (session('success'))
+            <div class="max-w-sm bg-green-500/50 text-green-900 p-2 mt-5 mx-5">
+                {{ session('success') }}
+            </div>
+        @endif
         @yield('content')
     </div>
 

@@ -16,4 +16,10 @@ Route::prefix('/blog')->name('blog.')->controller(PostController::class)->group(
             'slug' => '[a-z0-9\-]+',
         ])
         ->name('show');
+
+    Route::get('/new', 'create')->name('create');
+    Route::post('/new', 'store');
+
+    Route::get('/{post}/edit', 'edit')->name('edit');
+    Route::patch('/{post}/edit', 'update');
 });
