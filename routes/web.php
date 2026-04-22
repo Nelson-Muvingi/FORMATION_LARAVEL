@@ -9,9 +9,13 @@ Route::get('/', function () {
 });
 
 // Routes d'authentification
-Route::get('login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('login', [AuthController::class, 'doLogin']);
-Route::delete('logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/register', 'register')->name('auth.register');
+    Route::post('/register', 'doRegister');
+    Route::get('/login', 'login')->name('auth.login');
+    Route::post('/login', 'doLogin');
+    Route::delete('/logout', 'logout')->name('auth.logout');
+});
 
 Route::prefix('/blog')->name('blog.')->controller(PostController::class)->group(function () {
     // Routes publiques
