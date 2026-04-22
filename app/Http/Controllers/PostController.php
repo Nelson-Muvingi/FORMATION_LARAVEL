@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\{Auth, Hash};
-use Illuminate\View\View;
 use App\Http\Requests\FormPostRequest;
-use App\Models\{Category, Post, Tag, User};
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Tag;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
@@ -32,7 +36,7 @@ class PostController extends Controller
 
     public function store(FormPostRequest $request)
     {
-        $post = Post::create($request->validated());
+        $post = Post::create($this->extractData(new Post, $request));
         $post->tags()->sync($request->validated('tags'));
 
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', 'L\'article a été bien sauvegardé');
@@ -61,10 +65,31 @@ class PostController extends Controller
 
     public function update(Post $post, FormPostRequest $request)
     {
-        $post->update($request->validated());
+
+        $post->update($this->extractData($post, $request));
         $post->tags()->sync($request->validated('tags'));
 
         return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])
             ->with('success', 'Article mis à jour !');
+    }
+
+    private function extractData(Post $post, FormPostRequest $request)
+    {
+        $data = $request->validated();
+
+        $image = $request->validated('image');
+
+        /** @var UploadedFile|null $image */
+        if ($image === null || $image->getError()) {
+            return $data;
+        }
+
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+
+        $data['image'] = $image->store('blog', 'public');
+
+        return $data;
     }
 }

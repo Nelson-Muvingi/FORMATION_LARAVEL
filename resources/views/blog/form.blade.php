@@ -1,6 +1,14 @@
-<form action="" method="post" class="max-w-sm space-y-4 my-6 mx-auto">
+<form action="" method="post" class="max-w-sm space-y-4 my-6 mx-auto" enctype="multipart/form-data">
     @csrf
     @method($post->id ? 'PATCH' : 'POST')
+    <div>
+        <label for="image" class="block mb-1.5 text-sm font-medium">Image de l'article</label>
+        <input type="file" id="image" name="image"
+            class="bg-neutral-100 border text-sm rounded block w-full px-2.5 py-2 shadow-xs" />
+        @error('image')
+            {{ $message }}
+        @enderror
+    </div>
     <div>
         <label for="name" class="block mb-1.5 text-sm font-medium">Titre de l'article</label>
         <input type="text" id="name" name="title" value="{{ old('title', $post->title) }}"
