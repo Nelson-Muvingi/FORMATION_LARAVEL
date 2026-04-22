@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FormPostRequest;
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\{Auth, Hash};
 use Illuminate\View\View;
+use App\Http\Requests\FormPostRequest;
+use App\Models\{Category, Post, Tag, User};
 
 class PostController extends Controller
 {
     public function index(): View
     {
-        $post = Post::find(2);
+        // dd(Auth::user());
 
         return view('blog.index', [
             'posts' => Post::with(['tags', 'category'])->paginate(10),

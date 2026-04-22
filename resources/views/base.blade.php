@@ -38,11 +38,28 @@
                             Create
                         </a>
 
-
                     </div>
 
-                    <a href="compte/connexion"
-                        class="hidden md:block w-fit m-2 ml-4 mb-4 rounded-xl bg-teal-500 py-3 px-4 text-white hover:bg-teal-600 transition font-medium">Connexion</a>
+                    <div class="flex space-x-1">
+                        @auth
+                            <div
+                                class="w-fit rounded-xl bg-slate-700 py-3 px-4 text-white hover:bg-slate-800 transition font-medium">
+                                {{ Auth::user()->name }}
+                            </div>
+                            <form action="{{ route('auth.logout') }}" method="post">
+                                @method('delete')
+                                @csrf
+                                <button type="submit"
+                                    class="block w-fit rounded-xl bg-red-800 py-3 px-4 text-white hover:bg-red-900 transition font-medium">
+                                    Se déconnecter</button>
+                            </form>
+                        @endauth
+                    </div>
+
+                    @guest
+                        <a href="{{ route('auth.login') }}"
+                            class="hidden md:block w-fit m-2 ml-4 mb-4 rounded-xl bg-teal-500 py-3 px-4 text-white hover:bg-teal-600 transition font-medium">Connexion</a>
+                    @endguest
 
                     <!-- Menu mobile (hamburger) -->
                     <div class="md:hidden">
@@ -61,7 +78,7 @@
                 <a href="{{ route('blog.index') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Accueil</a>
                 <a href="{{ route('blog.create') }}" class="block py-2 px-4 text-gray-700 hover:bg-gray-100">Create</a>
 
-                <a href="compte/connexion"
+                <a href="{{ route('auth.login') }}"
                     class="block w-fit m-2 ml-4 mb-4 rounded bg-teal-500 py-2.5 px-4 text-white hover:bg-teal-600 transition">Connexion</a>
             </div>
         </nav>
