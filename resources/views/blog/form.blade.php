@@ -27,6 +27,42 @@
             {{ $message }}
         @enderror
     </div>
+    <div>
+        <label for="category" class="block mb-1.5 text-sm font-medium" class="block mb-1.5 text-sm font-medium">Contenu
+            de l'article</label>
+        <select name="category_id" id="category"
+            class="bg-neutral-100 border text-sm rounded block w-full px-2.5 py-2 shadow-xs">
+            <option value="">
+                Selectionnez une categorie
+            </option>
+            @foreach ($categories as $categorie)
+                <option @selected(old('category_id', $post->category_id == $categorie->id)) value="{{ $categorie->id }}">
+                    {{ $categorie->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('category_id')
+            {{ $message }}
+        @enderror
+    </div>
+    @php
+        $tagsId = $post->tags()->pluck('id');
+    @endphp
+    <div>
+        <label for="tag" class="block mb-1.5 text-sm font-medium" class="block mb-1.5 text-sm font-medium">Contenu
+            de l'article</label>
+        <select name="tags[]" id="category" multiple
+            class="bg-neutral-100 border text-sm rounded block w-full px-2.5 py-2 shadow-xs">
+            @foreach ($tags as $tag)
+                <option @selected($tagsId->contains($tag->id)) value="{{ $tag->id }}">
+                    {{ $tag->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('tags')
+            {{ $message }}
+        @enderror
+    </div>
 
     <button type="submit"
         class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition cursor-pointer">
